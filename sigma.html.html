@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strona z tłem i animacją GIF</title>
+    <style>
+        body {
+            background-image: url('tlo.jpg'); 
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden; /* Zablokowanie paska przewijania */
+        }
+        
+        .content {
+            text-align: center;
+        }
+
+        /* Styl dla napisu "Nie klikaj w to" */
+        .no-click {
+            cursor: pointer; /* Zmiana kursora na wskaźnik */
+            text-decoration: underline; /* Podkreślenie */
+            font-weight: bold; /* Pogrubienie */
+            color: red; /* Kolor czerwony */
+            font-size: 24px; /* Rozmiar czcionki */
+        }
+
+        /* Zmiana koloru po najechaniu na napis */
+        .no-click:hover {
+            color: darkred;
+        }
+
+        /* Styl dla obrazu GIF */
+        .gif-image {
+            width: 70%; /* Szerokość obrazu w procentach */
+            max-width: 500px; /* Maksymalna szerokość obrazu */
+            height: auto; /* Automatyczna wysokość proporcjonalna */
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+                <img src="gif.gif" alt="Animacja" class="gif-image" /> <!-- Dodaj plik GIF -->
+        <div class="no-click" onclick="openBrowserWindows()">Nie klikaj w to</div>
+    </div>
+
+    <script>
+        var windows = []; // Tablica przechowująca otwarte okna przeglądarki
+        var music1, music2; // Piosenki
+
+        // Funkcja otwierająca nowe okno przeglądarki
+        function openBrowserWindows() {
+            var window1 = window.open('about:blank', '_blank', 'width=400,height=300,top=100,left=100');
+            var window2 = window.open('about:blank', '_blank', 'width=400,height=300,top=200,left=200');
+            if (window1 && window2) {
+                windows.push(window1);
+                windows.push(window2);
+                playMusic(); // Odtwarzaj piosenki
+            }
+        }
+
+        // Funkcja odtwarzająca piosenki
+        function playMusic() {
+            // Sprawdź, czy piosenki już grają
+            if (!music1 || music1.ended) {
+                music1 = new Audio('lukitrap.mp3');
+                music1.loop = true;
+                music1.play();
+            }
+            if (!music2 || music2.ended) {
+                music2 = new Audio('erm.mp3');
+                music2.loop = true;
+                music2.play();
+            }
+
+            setInterval(moveWindows, 1000); // Sprawdzaj co sekundę
+        }
+
+        // Funkcja przesuwająca okna przeglądarki
+        function moveWindows() {
+            for (var i = 0; i < windows.length; i++) {
+                var newX = Math.random() * (screen.width - windows[i].outerWidth);
+                var newY = Math.random() * (screen.height - windows[i].outerHeight);
+                windows[i].moveTo(newX, newY);
+            }
+        }
+    </script>
+</body>
+</html>
+
